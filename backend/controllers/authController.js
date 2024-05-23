@@ -22,6 +22,11 @@ exports.login = async (req, res) => {
   const { username, password } = req.body;
   try {
     const user = await db.User.findOne({ where: { username } });
+
+    if (!user) {
+      return res.status(401).json({ error: 'Invalid credentials' });
+    }
+
     if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.status(401).json({ error: "Invalid credentials" });
     }
@@ -30,7 +35,7 @@ exports.login = async (req, res) => {
       process.env.JWT_SECRET,
       { expiresIn: "1h" }
     );
-    res.json({ token });
+    res.json({ token, user: { id: user.id, username: user.username, role: user.role } });
   } catch (error) {
     res.status(500).json({ error: "Login failed" });
   }
