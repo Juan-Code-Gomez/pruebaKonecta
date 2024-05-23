@@ -25,7 +25,7 @@ const Login = ({ history }) => {
       if (!isRegister) {
         login(response.data.user.username, response.data.token, response.data.user.role);
         localStorage.setItem('token', response.data.token);
-        navigate('/');
+        navigate('/Home');
       } else {
         setIsRegister(false);
       }
