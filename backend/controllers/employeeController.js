@@ -1,9 +1,22 @@
 const db = require("../models");
 
 exports.getAllEmployees = async (req, res) => {
+  const { page = 1, limit = 10 } = req.query;
+
+  const offset = (page - 1) * limit;
+
   try {
-    const employees = await db.Employee.findAll();
-    res.json(employees);
+    const employees = await db.Employee.findAndCountAll({
+      limit: parseInt(limit, 10),
+      offset,
+    });
+
+    res.json({
+      totalItems: employees.count,
+      totalPages: Math.ceil(employees.count / limit),
+      currentPage: parseInt(page, 10),
+      data: employees.rows,
+    });
   } catch (error) {
     res.status(500).json({ error: "Failed to retrieve employees" });
   }
