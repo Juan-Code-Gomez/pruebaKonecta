@@ -10,6 +10,8 @@ import Home from "./pages/Home";
 import Requests from "./pages/Request";
 import Employees from "./pages/Employess";
 import Login from "./components/Auth/Login";
+import Navbar from "./utils/Navbar";
+import Footer from "./utils/Footer";
 
 const PrivateRoute = ({ element: Component, roles, ...rest }) => {
   const { auth } = useContext(AuthContext);
@@ -25,13 +27,16 @@ const PrivateRoute = ({ element: Component, roles, ...rest }) => {
   return Component;
 };
 
-const App = () => {
+const AppContent = () => {
+  const { auth } = useContext(AuthContext);
+
   return (
-    <AuthProvider>
-      <Router>
+    <div className="flex flex-col min-h-screen">
+      {auth.isAuthenticated && <Navbar />}
+      <main className="flex-grow">
         <Routes>
           <Route path="/" element={<Login />} />
-          <Route path="/Home" element={<Home />} />
+          <Route path="/home" element={<Home />} />
           <Route
             path="/requests"
             element={
@@ -43,9 +48,22 @@ const App = () => {
           />
           <Route
             path="/employees"
-            element={<PrivateRoute element={<Employees />} roles={["admin", "employee"]} />}
+            element={
+              <PrivateRoute element={<Employees />} roles={["admin", "employee"]} />
+            }
           />
         </Routes>
+      </main>
+      {auth.isAuthenticated && <Footer />}
+    </div>
+  );
+};
+
+const App = () => {
+  return (
+    <AuthProvider>
+      <Router>
+        <AppContent />
       </Router>
     </AuthProvider>
   );
