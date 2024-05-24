@@ -1,7 +1,7 @@
 const requestController = require('../../controllers/requestController');
 const db = require('../../models');
 
-jest.mock('../../models'); // Mockea todo el módulo de models
+jest.mock('../../models'); 
 
 describe('Request Controller', () => {
   describe('getAllRequests', () => {
@@ -109,7 +109,7 @@ describe('Request Controller', () => {
         send: jest.fn()
       };
 
-      db.Request.destroy.mockResolvedValue(1); // Mockea que 1 fila fue afectada (eliminada)
+      db.Request.destroy.mockResolvedValue(1); 
 
       await requestController.deleteRequest(req, res);
 
