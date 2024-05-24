@@ -51,6 +51,15 @@ const RequestList = () => {
     fetchRequests(currentPage);
   };
 
+  const handleDelete = async (id) => {
+    try {
+      await api.delete(`/requests/${id}`);
+      fetchRequests(currentPage);
+    } catch (error) {
+      setError("An error occurred while deleting the request.");
+    }
+  };
+
   return (
     <div className="container mx-auto p-4">
       <h2 className="text-2xl font-bold mb-4">Solicitudes</h2>
@@ -91,6 +100,7 @@ const RequestList = () => {
               <th className="py-2 px-4 border-b">Estado</th>
               <th className="py-2 px-4 border-b">Empleado</th>
               <th className="py-2 px-4 border-b">Fecha creacion</th>
+              {auth.role === "admin" && <th className="py-2 px-4 border-b">Acciones</th>}
             </tr>
           </thead>
           <tbody>
@@ -104,6 +114,16 @@ const RequestList = () => {
                 <td className="py-2 px-4 border-b">
                   {new Date(request.createdAt).toLocaleString()}
                 </td>
+                {auth.role === "admin" && (
+                  <td className="py-2 px-4 border-b">
+                    <button
+                      onClick={() => handleDelete(request.id)}
+                      className="bg-red-500 text-white px-4 py-2 rounded"
+                    >
+                      Eliminar
+                    </button>
+                  </td>
+                )}
               </tr>
             ))}
           </tbody>
