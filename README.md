@@ -22,6 +22,8 @@ JWT_SECRET=mysecretkey
 
 - ### Se debe tener una base de datos llamada prueba1 en PostgreSQL
 
+No es necesario ejecutar el script en la base de datos. Al correr la API por medio del ORM de Sequealize el crea las base de datos.
+
 - ### Para ejecutar Docker se debe realizar con el siguiente comando 
 docker-compose up --build
 
@@ -62,6 +64,6 @@ El codigo se desarrollo con el modelo vista controlador organizando todo por car
 
 Uso de Async/Await: Para un manejo eficiente de operaciones asincrónicas.
 
-Validación y Saneamiento: Se usan librerías como express-validator para validar y sanear entradas, evitando inyecciones SQL y XSS
+Validación y Saneamiento: Se utilizo un ORM con sequealize para evitar inyecciones sql
 
 Autenticación Segura: Implementación de JWT para la autenticación y manejo de sesiones
