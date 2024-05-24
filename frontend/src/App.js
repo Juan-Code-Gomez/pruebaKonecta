@@ -6,12 +6,14 @@ import {
   Navigate,
 } from "react-router-dom";
 import { AuthProvider, AuthContext } from "./context/AuthContext";
+import { AlertProvider } from "./context/AlertContext";
 import Home from "./pages/Home";
 import Requests from "./pages/Request";
 import Employees from "./pages/Employess";
 import Login from "./components/Auth/Login";
 import Navbar from "./utils/Navbar";
 import Footer from "./utils/Footer";
+import Alert from "./utils/Alert";
 
 const PrivateRoute = ({ element: Component, roles, ...rest }) => {
   const { auth } = useContext(AuthContext);
@@ -55,17 +57,20 @@ const AppContent = () => {
         </Routes>
       </main>
       {auth.isAuthenticated && <Footer />}
+      <Alert/>
     </div>
   );
 };
 
 const App = () => {
   return (
+    <AlertProvider>
     <AuthProvider>
       <Router>
         <AppContent />
       </Router>
     </AuthProvider>
+    </AlertProvider>
   );
 };
 

@@ -2,9 +2,11 @@ import React, { useState, useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import api from '../../services/api';
+import { AlertContext } from '../../context/AlertContext';
 
 const Login = ({ history }) => {
   const { login } = useContext(AuthContext);
+  const { showAlert } = useContext(AlertContext);
   const [isRegister, setIsRegister] = useState(false);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -25,11 +27,14 @@ const Login = ({ history }) => {
       if (!isRegister) {
         login(response.data.user.username, response.data.token, response.data.user.role);
         localStorage.setItem('token', response.data.token);
+        showAlert('Bienvenido de nuevo', 'success');
         navigate('/Home');
       } else {
         setIsRegister(false);
       }
     } catch (error) {
+      showAlert('Usuario o contrase;a incorrecta', 'error');
+
       console.error('Authentication failed:', error);
     }
   };

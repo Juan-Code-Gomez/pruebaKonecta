@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import api from "../../services/api";
+import { AlertContext } from '../../context/AlertContext';
 
 const RequestForm = ({ onClose, onRequestCreated }) => {
+  const { showAlert } = useContext(AlertContext);
   const [request, setRequest] = useState({
     code: "",
     description: "",
@@ -20,8 +22,11 @@ const RequestForm = ({ onClose, onRequestCreated }) => {
       await api.post("/requests", request);
       onRequestCreated();
       onClose();
+      showAlert('Solicitud creada correctamente', 'success');
     } catch (error) {
       console.error("Failed to create request:", error);
+      showAlert('No se pudo crear la solciitud', 'error');
+
     }
   };
 

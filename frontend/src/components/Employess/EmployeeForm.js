@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import api from '../../services/api';
+import { AlertContext } from '../../context/AlertContext';
 
 const EmployeeForm = ({ onClose, onEmployeeCreated }) => {
   const [employee, setEmployee] = useState({ name: '', position: '', hire_date: '', salary: '' });
+  const { showAlert } = useContext(AlertContext);
 
   const handleChange = (e) => {
     setEmployee({ ...employee, [e.target.name]: e.target.value });
@@ -14,8 +16,10 @@ const EmployeeForm = ({ onClose, onEmployeeCreated }) => {
       await api.post('/employees', employee);
       onEmployeeCreated(); // Llama a la función para actualizar la lista de empleados
       onClose(); // Cierra el modal
+      showAlert('Empleado creado correctamente', 'success');
     } catch (error) {
       console.error('Failed to create employee:', error);
+      showAlert('No se pudo crear el empleado', 'error');
     }
   };
 

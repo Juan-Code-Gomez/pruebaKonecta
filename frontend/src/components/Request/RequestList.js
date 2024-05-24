@@ -3,6 +3,7 @@ import api from "../../services/api";
 import { useNavigate } from "react-router-dom";
 import RequestForm from "./RequestForm";
 import { AuthContext } from '../../context/AuthContext'
+import { AlertContext } from '../../context/AlertContext';
 
 const RequestList = () => {
   const { auth } = useContext(AuthContext); 
@@ -12,6 +13,7 @@ const RequestList = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
+  const { showAlert } = useContext(AlertContext);
 
   const fetchRequests = async (page = 1) => {
     try {
@@ -55,6 +57,7 @@ const RequestList = () => {
     try {
       await api.delete(`/requests/${id}`);
       fetchRequests(currentPage);
+      showAlert('Solicitud Eliminada correctamente', 'error');
     } catch (error) {
       setError("An error occurred while deleting the request.");
     }
