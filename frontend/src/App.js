@@ -43,7 +43,7 @@ const App = () => {
           />
           <Route
             path="/employees"
-            element={<PrivateRoute element={<Employees />} roles={["admin"]} />}
+            element={<PrivateRoute element={<Employees />} roles={["admin", "employee"]} />}
           />
         </Routes>
       </Router>

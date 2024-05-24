@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext  } from "react";
 import api from "../../services/api";
 import { useNavigate } from "react-router-dom";
 import RequestForm from "./RequestForm";
+import { AuthContext } from '../../context/AuthContext'
 
 const RequestList = () => {
+  const { auth } = useContext(AuthContext); 
   const [requests, setRequests] = useState([]);
   const [error, setError] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -61,20 +63,24 @@ const RequestList = () => {
           <span className="block sm:inline">{error}</span>
         </div>
       )}
-      <div className="mb-4 flex justify-between">
-        <button
-          onClick={() => navigate("/employees")}
-          className="bg-blue-500 text-white px-4 py-2 rounded"
-        >
-          Empleados
-        </button>
-        <button
-          onClick={openModal}
-          className="bg-green-500 text-white px-4 py-2 rounded"
-        >
-          Crear solicitud
-        </button>
-      </div>
+      
+        <div className="mb-4 flex justify-between">
+          <button
+            onClick={() => navigate("/employees")}
+            className="bg-blue-500 text-white px-4 py-2 rounded"
+          >
+            Empleados
+          </button>
+          {auth.role === "admin" && (
+          <button
+            onClick={openModal}
+            className="bg-green-500 text-white px-4 py-2 rounded"
+          >
+            Crear solicitud
+          </button>
+            )}
+        </div>
+    
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white">
           <thead>
