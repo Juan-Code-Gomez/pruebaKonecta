@@ -1,0 +1,23 @@
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  username VARCHAR(255) UNIQUE NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  role VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE employees (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  position VARCHAR(255) NOT NULL,
+  hire_date DATE NOT NULL,
+  salary DECIMAL(10, 2) NOT NULL
+);
+
+CREATE TABLE requests (
+  id SERIAL PRIMARY KEY,
+  code VARCHAR(50) UNIQUE NOT NULL,
+  description TEXT NOT NULL,
+  summary TEXT NOT NULL,
+  status VARCHAR(50) NOT NULL,
+  employee_id INTEGER REFERENCES employees(id)
+);
