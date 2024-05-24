@@ -1,17 +1,21 @@
-const { Sequelize } = require("sequelize");
-const sequelize = new Sequelize(process.env.DATABASE_URL);
+const { Sequelize, DataTypes } = require("sequelize");
+require('dotenv').config();
+
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
+  dialect: 'postgres'
+});
 
 const db = {};
 
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-db.User = require("./user")(sequelize, Sequelize);
-db.Employee = require("./employee")(sequelize, Sequelize.DataTypes);
-db.Request = require("./request")(sequelize, Sequelize.DataTypes);
+db.User = require("./user")(sequelize, DataTypes);
+db.Employee = require("./employee")(sequelize, DataTypes);
+db.Request = require("./request")(sequelize, DataTypes);
 
 Object.keys(db).forEach((modelName) => {
-  if (db[modelName].associate) {
+  if (db[modelName] && db[modelName].associate) {
     db[modelName].associate(db);
   }
 });
